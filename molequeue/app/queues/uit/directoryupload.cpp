@@ -24,6 +24,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QBuffer>
 
+#include <QDebug>
+
 namespace MoleQueue {
 namespace Uit {
 
@@ -72,6 +74,7 @@ void DirectoryUpload::uploadInternal()
 
 void DirectoryUpload::uploadNext()
 {
+  qDebug() << "uploadNext called";
   if (m_fileEntries.isEmpty()) {
     emit FileSystemOperation::finished();
     return;
@@ -112,6 +115,7 @@ void DirectoryUpload::uploadNext()
 
 void DirectoryUpload::createDirectoryComplete()
 {
+  qDebug() << "createDirectoryComplete...";
   CreateDirectoryRequest *request
       = qobject_cast<CreateDirectoryRequest*>(sender());
 
@@ -129,6 +133,7 @@ void DirectoryUpload::createDirectoryComplete()
 
 void DirectoryUpload::uploadFile(const QFileInfo &fileInfo)
 {
+  qDebug() << "uploadFile:" << fileInfo.absoluteFilePath();
   FileStreamingData fileData;
 
   QString filePath = fileInfo.absoluteFilePath().replace(m_localPath, "");

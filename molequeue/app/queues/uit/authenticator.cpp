@@ -45,6 +45,7 @@ Authenticator::~Authenticator()
 
 void Authenticator::authenticate()
 {
+  qDebug() << "authenticate called";
   showCredentialsDialog(tr("Enter Kerberos credentials for '%1'")
                           .arg(m_kerberosPrinciple),
                         "Password",
@@ -69,8 +70,9 @@ void Authenticator::authenticateKerberosCredentials(const QString &password)
 
 void Authenticator::authenticateKerberosResponse(const QString &responseXml)
 {
-  disconnect(m_uit, SIGNAL(authenticateUserDone(const QString&)),
-             this, SLOT(authenticateKerberosResponse(const QString&)));
+  qDebug() << "authenticateKerberosResponse";
+//  disconnect(m_uit, SIGNAL(authenticateUserDone(const QString&)),
+//             this, SLOT(authenticateKerberosResponse(const QString&)));
 
   AuthenticateResponse response = AuthenticateResponse::fromXml(responseXml);
   if (!response.isValid()) {
@@ -82,7 +84,9 @@ void Authenticator::authenticateKerberosResponse(const QString &responseXml)
   }
 
   // If error message was return display and prompt user again.
-  if (response.errorMessage().length() != 0) {
+  if (response.errorMessage().length() == 0) {
+    qDebug() << "errror" << response.errorMessage();
+    qDebug() << responseXml;
     m_credentialsDialog->setErrorMessage(response.errorMessage());
     m_credentialsDialog->show();
   }
@@ -104,6 +108,8 @@ void Authenticator::authenticateResponse(const AuthenticateResponse &response)
 
   m_authSessionId = response.authSessionId();
 
+  qDebug() << "response" << response.hasPrompts() << m_authSessionId;
+
   if (response.hasPrompts()) {
     // Walk through each prompts getting the credentials from the user.
     AuthResponseProcessor *processor = new AuthResponseProcessor(response,
@@ -118,7 +124,7 @@ void Authenticator::authenticateResponse(const AuthenticateResponse &response)
     // If the call was successfully and there are no more prompts
     // then we are authenticated
     if (response.success()) {
-
+      qDebug() << "Success" << response.token();
       emit authenticationComplete(response.token());
 
       // We are done ...

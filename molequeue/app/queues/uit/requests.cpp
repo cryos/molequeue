@@ -18,6 +18,8 @@
 #include "requests.h"
 #include "session.h"
 
+#include <QDebug>
+
 namespace MoleQueue {
 namespace Uit {
 
@@ -30,6 +32,7 @@ Request::Request(Session *session,
 
 void Request::submit()
 {
+  qDebug() << "Request::submit called";
   KDSoapJob *job = createJob();
 
   connect(job, SIGNAL(finished(KDSoapJob *)),
@@ -40,6 +43,7 @@ void Request::submit()
 
 void Request::finished(KDSoapJob *job)
 {
+  qDebug() << "Request::finished";
   m_response = job->reply();
 
   // UIT error case
@@ -55,6 +59,7 @@ void Request::finished(KDSoapJob *job)
 void Request::processFault(const KDSoapMessage &fault)
 {
   if (isTokenError(fault)) {
+    qDebug() << "Request::processFault attempting to authenticate again";
     m_session->authenticate(this,
                             SLOT(submit()),
                             this,
@@ -122,8 +127,9 @@ KDSoapJob * GetUserHostAssocRequest::createJob()
 
 UserHostAssocList GetUserHostAssocRequest::userHostAssocList()
 {
-  QString responseXml = m_response.childValues()
-                        .child(QLatin1String("getUserHostAssocReturn"))
+  qDebug() << m_response.toXml();
+  qDebug() << m_response.childValues();
+  QString responseXml = m_response
                         .value().value<QString>();
 
   UserHostAssocList info = UserHostAssocList::fromXml(responseXml);

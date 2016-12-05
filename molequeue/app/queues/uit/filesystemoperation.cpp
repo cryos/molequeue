@@ -17,6 +17,8 @@
 #include "filesystemoperation.h"
 #include "requests.h"
 
+#include <QDebug>
+
 namespace MoleQueue {
 namespace Uit {
 
@@ -31,6 +33,7 @@ FileSystemOperation::FileSystemOperation(Session *session,
 
 void FileSystemOperation::requestError(const QString &errorString)
 {
+  qDebug() << "requestError in FileSystemOperation" << errorString;
   Request *request
     = qobject_cast<Request*>(sender());
 

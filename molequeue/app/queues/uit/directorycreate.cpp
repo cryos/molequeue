@@ -23,6 +23,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QBuffer>
 
+#include <QDebug>
+
 namespace MoleQueue {
 namespace Uit {
 
@@ -92,6 +94,7 @@ void DirectoryCreate::processStatResponse()
 
 void DirectoryCreate::statError(const QString &errorString)
 {
+  qDebug() << "statError in DirectoryCreate";
   if (errorString.contains(FileSystemOperation::noSuchFileOrDir))
     createDirectory(m_currentDirectory);
   else
@@ -116,6 +119,7 @@ void DirectoryCreate::createDirectory(const QString &dir) {
 
 void DirectoryCreate::createDirectoryComplete()
 {
+  qDebug() << "createDirectoryComplete called";
   CreateDirectoryRequest *request
       = qobject_cast<CreateDirectoryRequest*>(sender());
 

@@ -20,6 +20,8 @@
 #include <QtCore/QStringList>
 #include <QtXmlPatterns/QXmlQuery>
 
+#include <QDebug>
+
 namespace MoleQueue {
 namespace Uit {
 
@@ -47,6 +49,7 @@ void UserHostAssocList::setContent(const QString &content)
   query.setQuery("/list/PublicHostPlusUser/hostID/string()");
   QStringList hostIDs;
   m_valid = query.evaluateTo(&hostIDs);
+  qDebug() << hostIDs;
 
   if (!m_valid)
     return;
@@ -116,6 +119,7 @@ void UserHostAssocList::setContent(const QString &content)
 
 UserHostAssocList UserHostAssocList::fromXml(const QString &xml)
 {
+  qDebug() << xml;
   UserHostAssocList list;
   list.setContent(xml);
 
