@@ -224,6 +224,9 @@ void QueueUit::copyInputFilesToHost(Job job)
   request->setUserName(m_kerberosUserName);
   request->setFilename(remoteDir);
 
+  qDebug() << "hostID:" << m_hostID << "remoteDir" << remoteDir;
+  qDebug() << uitSession();
+
   connect(request, SIGNAL(finished()),
           this, SLOT(processStatFileRequest()));
   connect(request, SIGNAL(error(const QString &)),
@@ -272,6 +275,7 @@ void QueueUit::uploadInputFilesToHost(Job job)
 
 void QueueUit::copyInputFilesToHostError(const QString &errorString)
 {
+  qDebug() << "Error::::" << errorString;
   Uit::StatFileRequest *request
     = qobject_cast<Uit::StatFileRequest*>(sender());
 
