@@ -156,7 +156,7 @@ JobEventList JobEventList::fromXml(const QString &xml, const QString &userName,
   return list;
 }
 
-void JobEventList::setContent(const QString &content, const QString &userName,
+void JobEventList::setContent(const QString &content, const QString &,
                               QList<qint64> jobIds)
 {
   m_xml = content;
