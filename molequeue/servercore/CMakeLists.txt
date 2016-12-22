@@ -30,9 +30,6 @@ set(hdrs
 generate_export_header(MoleQueueServerCore
   EXPORT_FILE_NAME molequeueservercoreexport.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-add_compiler_export_flags(molequeue_export_flags)
-set_property(TARGET MoleQueueServerCore APPEND
-  PROPERTY COMPILE_FLAGS ${molequeue_export_flags})
 
 list(APPEND hdrs
   "${CMAKE_CURRENT_BINARY_DIR}/molequeueservercoreexport.h")
