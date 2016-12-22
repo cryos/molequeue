@@ -65,7 +65,7 @@ void QueueManager::readSettings()
     QString absoluteFileName = queueDir.absoluteFilePath(queueFileName);
     QString queueName = QFileInfo(queueFileName).baseName();
     QString queueType = Queue::queueTypeFromFile(absoluteFileName);
-    Queue *queue = addQueue(queueName, queueType, this);
+    Queue *queue = addQueue(queueName, queueType, true);
 
     if (queue != NULL) {
       bool success = queue->readSettings(absoluteFileName);
